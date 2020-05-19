@@ -382,8 +382,11 @@ CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
 
 try:
     from netbox import ldap_config as LDAP_CONFIG
-except ImportError:
-    LDAP_CONFIG = None
+except ImportError as ie:
+    if ie.name == 'netbox':
+        LDAP_CONFIG = None
+    else:
+        raise ie
 
 if LDAP_CONFIG is not None:
 
